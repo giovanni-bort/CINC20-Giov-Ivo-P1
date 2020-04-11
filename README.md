@@ -1,7 +1,9 @@
 # Example MATLAB classifier for the PhysioNet/CinC Challenge 2020
 
 ## Contents
+ECG Classification for CINC-2020. Version do_04_02 (Bortolan, Ivaylo). CINC-2020
 
+## Contents 2
 This classifier uses three scripts:
 
 * `run_12ECG_classifier.m` makes classifications on 12-Leads ECG data.  Add your prediction code to the `run_12ECG_classifier` function. `load_12ECG_model.m` loads model weights, etc. for making classifications.  To reduce your code's run time, add any code to the `load_12ECG_model` function that you only need to run once, such as loading weights for your model.
