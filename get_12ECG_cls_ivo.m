@@ -30,11 +30,11 @@ PVC=0;
     d2=V2(1:2:length(II));
     [QRS]=QRS_det(d1,d2);      % go to function
     QRS=QRS*2;  % 500Hz
-     figure(1); clf
+% %      figure(1); clf
       x=(1:1:length(I))/Hz;
-      plot(x,I, QRS/Hz, I(QRS), 'ro')
-%      figure(3)
- %    plot(x,V2)
+% %       plot(x,I, QRS/Hz, I(QRS), 'ro')
+    %      figure(3)
+    %    plot(x,V2)
 
     if length(QRS)<=4;
         I=I/2; V2=V2/2;
@@ -49,9 +49,9 @@ ecg=II;
 fs=1000;
 QRS=0;
 [QRS,sign,en_thres] = qrs_detect2(ecg',0.25,0.6,fs);
-figure(1); clf
+% % figure(1); clf
 x=(1:1:length(I))/Hz;
-plot(x,II, QRS/Hz, II(QRS), 'ro')
+% % plot(x,II, QRS/Hz, II(QRS), 'ro')
 end
 
 I_AVB=0; AF=0; PVC=PVC; PAC=0; LBBB=0; RBBB=0; Normal=0; STD=0; STE=0;
@@ -122,8 +122,8 @@ end
 
 
 x1=(1:1:length(I))/Hz;
-figure(1); clf
-plot(x1,I, FP/Hz, I(FP),'ro') 
+% % figure(1); clf
+% % plot(x1,I, FP/Hz, I(FP),'ro') 
 %  title(filename)
 
 % PVC & PAC
@@ -193,10 +193,10 @@ if mean(V6)~=0
 end
 end
 x1=1/Hz:1/Hz:length(I_mean)/Hz;
-figure(2); clf
-subplot(3,3,1); plot(x1,I_mean); title('I')
-subplot(3,3,2); plot(x1,II_mean); title('II')
-subplot(3,3,3); plot(x1,III_mean); title('III')
+% % figure(2); clf
+% % subplot(3,3,1); plot(x1,I_mean); title('I')
+% % subplot(3,3,2); plot(x1,II_mean); title('II')
+% % subplot(3,3,3); plot(x1,III_mean); title('III')
 if mean(V1)==0; 
     V1_mean(1:length(I_mean))=0;
     V2_mean(1:length(I_mean))=0;
@@ -208,13 +208,13 @@ end
     if mean(V6)==0;     V6_mean(1:length(I_mean))=0; end
 
 x2=(1:1:length(V1_mean))/Hz;
-subplot(3,3,4); plot(x2,V1_mean); title('V1')
-subplot(3,3,5); plot(x2,V2_mean); title('V2')
-subplot(3,3,6); plot(x2,V3_mean); title('V3')
-subplot(3,3,7); plot(x2,V4_mean); title('V4')
-subplot(3,3,8); plot(x2,V5_mean); title('V5')
-x3=(1:1:length(V6_mean))/Hz;
-subplot(3,3,9); plot(x3,V6_mean); title('V6')
+% % subplot(3,3,4); plot(x2,V1_mean); title('V1')
+% % subplot(3,3,5); plot(x2,V2_mean); title('V2')
+% % subplot(3,3,6); plot(x2,V3_mean); title('V3')
+% % subplot(3,3,7); plot(x2,V4_mean); title('V4')
+% % subplot(3,3,8); plot(x2,V5_mean); title('V5')
+% %  x3=(1:1:length(V6_mean))/Hz;
+% %  subplot(3,3,9); plot(x3,V6_mean); title('V6')
 
 % Find the izoelectric point in II or V1
 a=90;  b=200;  %  Offset
@@ -241,10 +241,10 @@ To=From+80*Hz/1000;                % to 100 ms right ...
 J_1=Pnt;
 
 x1=(1:1:length(I_mean))/Hz;
-subplot (3,3,1);
-plot(x1,Lead), hold on
-plot(Iz_1/Hz, Lead(Iz_1), 'ro', J_1/Hz, Lead(J_1), 'ro')
-title ('I')
+% % subplot (3,3,1);
+% % plot(x1,Lead), hold on
+% % plot(Iz_1/Hz, Lead(Iz_1), 'ro', J_1/Hz, Lead(J_1), 'ro')
+% % title ('I')
 
 Lead=V1_mean;
 Iz2=Iz_1;
@@ -269,8 +269,8 @@ To=From+80*Hz/1000;                % to 100 ms right ...
 J_2=Pnt;
 
 x1=(1:1:length(Lead))/Hz;
-subplot (3,3,4);
-plot(x1,Lead, Iz_2/Hz, Lead(Iz_2), 'ro', J_2/Hz, Lead(J_2), 'ro')
+% % subplot (3,3,4);
+% % plot(x1,Lead, Iz_2/Hz, Lead(Iz_2), 'ro', J_2/Hz, Lead(J_2), 'ro')
 
 if abs(Iz_1-Iz_2) <20;
     Iz=max(Iz_1, Iz_2);
@@ -325,11 +325,14 @@ A=mean(D1(8:14));
     end
     
     x1=(1:1:length(V1_mean))/Hz;
-    subplot(3,3,5);
-    plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
-    plot(Zero1/Hz, Lead    (Zero1), 'go')   
-    if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB1=1; 
-    else title ('V2'); RBBB1=0; end
+% %     subplot(3,3,5);
+% %     plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
+% %     plot(Zero1/Hz, Lead    (Zero1), 'go')   
+% %     if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB1=1; 
+% %     else title ('V2'); RBBB1=0; end
+    
+    if length(Zero1)>=3 & no==0; RBBB1=1; 
+    else RBBB1=0; end
 
 
     Lead=V1_mean;
@@ -346,12 +349,14 @@ A=mean(D1(8:14));
     end
 
     x1=(1:1:length(V1_mean))/Hz;
-    subplot(3,3,4);
-    plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
-    hold on
-    plot(Zero1/Hz, Lead(Zero1), 'go')   
-    if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB2=1; 
-    else title ('V1'); RBBB2=0; end
+% %     subplot(3,3,4);
+% %     plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
+% %     hold on
+% %     plot(Zero1/Hz, Lead(Zero1), 'go')   
+% %     if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB2=1; 
+% %     else title ('V1'); RBBB2=0; end
+    if length(Zero1)>=3 & no==0;  RBBB2=1; 
+    else  RBBB2=0; end
     
      Lead=V3_mean;
     
@@ -367,11 +372,13 @@ A=mean(D1(8:14));
 
     x1=(1:1:length(V1_mean))/Hz;
     Iz=Iz-a;   J=J+a;       % restore J & Iz
-    subplot(3,3,6);
-    plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
-    plot(Zero1/Hz, Lead(Zero1), 'go')   
-    if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB3=1; 
-    else title ('V3'); RBBB3=0; end
+%     subplot(3,3,6);
+%     plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
+%     plot(Zero1/Hz, Lead(Zero1), 'go')   
+%     if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB3=1; 
+%     else title ('V3'); RBBB3=0; end
+    if length(Zero1)>=3 & no==0; RBBB3=1; 
+    else  RBBB3=0; end
     
     
     Lead=V4_mean;
@@ -388,11 +395,15 @@ A=mean(D1(8:14));
     end
          
     x1=(1:1:length(V1_mean))/Hz;
-    subplot(3,3,7);
-    plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
-    plot(Zero1/Hz, Lead(Zero1), 'go')   
-    if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB4=1; 
-    else title ('V4'); RBBB4=0; end
+% %     subplot(3,3,7);
+% %     plot(x1,Lead, Iz/Hz,Lead (Iz), 'ko',J/Hz,Lead (J), 'ko'); hold on
+% %     plot(Zero1/Hz, Lead(Zero1), 'go')   
+% %     if length(Zero1)>=3 & no==0; title ('RBBB'); RBBB4=1; 
+% %     else title ('V4'); RBBB4=0; end
+    
+     if length(Zero1)>=3 & no==0;  RBBB4=1; 
+    else  RBBB4=0; end
+   
     
 if RBBB1|RBBB2|RBBB3|RBBB4~=0; RBBB=1; end
 
@@ -443,13 +454,13 @@ end
   
     if pr-pl<30*Hz/1000;LBBB=0;   end
   
-   figure(2);
-    subplot(3,3,9);
+% %    figure(2);
+% %     subplot(3,3,9);
     
     x1=(1:1:length(Lead))/Hz;
-    plot(x1,Lead, From/Hz, Lead(From),'ko',...
-        pl/Hz, Lead(pl),'ko', pr/Hz, Lead(pr),'ko')
-    title ('V6')
+% %     plot(x1,Lead, From/Hz, Lead(From),'ko',...
+% %         pl/Hz, Lead(pl),'ko', pr/Hz, Lead(pr),'ko')
+% %     title ('V6')
 end
 
 Iz2=Iz; J2=J;
@@ -491,18 +502,18 @@ for i=Iz2-20:-1:1;
 end
 
 P_x=i+20;
-    figure(2);
+% %     figure(2);
     x=(1:1:length(I_mean))/Hz;
-    subplot(3,3,2);
-    title('II')
+% %     subplot(3,3,2);
+% %     title('II')
     
     Iz=Iz2;
-    if P_wave==1
-    plot(x, Lead, P_x/Hz, Lead(P_x), 'go', Iz/Hz, Lead(Iz), 'go');
-
-    else plot(x, Lead, Iz/Hz, Lead(Iz), 'go');
-    
-    end
+% %     if P_wave==1
+% %     plot(x, Lead, P_x/Hz, Lead(P_x), 'go', Iz/Hz, Lead(Iz), 'go');
+% % 
+% %     else plot(x, Lead, Iz/Hz, Lead(Iz), 'go');
+% %     
+% %     end
     
     
 if P_wave==1 && Iz-P_x > 125*Hz/1000; I_AVB=1;
@@ -529,16 +540,16 @@ end
    
     Iz=J_; J=Iz_;
     
-     figure(1); hold on
+% %      figure(1); hold on
   %      plot(J/Hz, Lead(J), 'ro', Iz/Hz, Lead(Iz), 'ro')
     [Zero1]=Deriv(Lead,Iz,J); % go to function
     B=[Iz,Zero1,J]; 
            
     if length(B)>=12 && P_wave==0; AF=1;
-        figure(1); hold on
-        plot(B/Hz, Lead(B), 'go')
+% %         figure(1); hold on
+% %         plot(B/Hz, Lead(B), 'go')
     else AF=0;     end
-figure(2)
+% % figure(2)
 
 if AF==1; I_AVB=0; end
 % if I_AVB==1; RBBB=0; LBBB=0; end
