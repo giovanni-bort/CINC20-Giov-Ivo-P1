@@ -1,5 +1,6 @@
 % Cross correlation
 function[FP_,matrix]=cross_corr(lead,FP,Hz,Left,Right);
+% function corrected 15.04.20
 if FP(1)==FP(2); FP=FP(2:length(FP)); end
 On=FP-round(Left*Hz/1000);    %80 ms left
 Off=FP+round(Right*Hz/1000);  %100 ms right
@@ -30,10 +31,15 @@ else
     else matrix=lead(FP_(3)-round(Left*Hz/1000) : FP_(3)+round(Right*Hz/1000)); m=3;
     end
 end
-
 if FP_(length(FP_))+Right>length(lead); FP_=FP_(1:length(FP_)-1); end
-if(FP_(1)-round(Left*Hz/1000)<1),fprintf('***%6.0f%6.0f\n',FP_(1),round(Left*Hz/1000));end %********** MODIFY *******
 for i=m:length(FP_);
+  if(FP_(i)-round(Left*Hz/1000)<1),
+      fprintf('***i:%6.0f -> %6.0f%6.0f ',i,FP_(i),round(Left*Hz/1000));
+      fprintf('  matrix: %6.0f%6.0f  %6.0f%6.0f\n',size(matrix),round(Left*Hz/1000),round(Right*Hz/1000));
+      new(1:round(Left*Hz/1000)+round(Right*Hz/1000)+1)=0;
+  else %********** MODIFY *******
     new=lead(FP_(i)-round(Left*Hz/1000) : FP_(i)+round(Right*Hz/1000));
+  end
    matrix=[matrix; new];
 end
+fprintf(' **** cross_corr: matrix:%6.0f%6.0f\n',size(matrix));
