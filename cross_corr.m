@@ -42,4 +42,4 @@ for i=m:length(FP_);
   end
    matrix=[matrix; new];
 end
-fprintf(' **** cross_corr: matrix:%6.0f%6.0f\n',size(matrix));
+%fprintf(' **** cross_corr: matrix:%6.0f%6.0f\n',size(matrix));
