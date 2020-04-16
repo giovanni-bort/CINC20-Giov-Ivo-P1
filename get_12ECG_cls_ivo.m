@@ -2,8 +2,11 @@
 function [scores,out_labels]=get_12ECG_cls_ivo(ECG,Header);
 
      %Version do_04_02  copiede 11.4.20
-    fprintf('Version do_04_02  -- size(ECG)=%6.0f%6.0f\n',size(ECG));
+    fprintf('Version do_04_02  -- size(ECG)=%6.0f%6.0f',size(ECG));
 
+   Zero_leads=find(sum(abs(ECG),2)==0);
+   fprintf(' Zero:');fprintf('%6.0f',Zero_leads);fprintf('\n');
+    
     ECG=ECG/1000;
     I=ECG(1,:); II=ECG(2,:); III=ECG(3,:);
     aVR=ECG(4,:); aVL=ECG(5,:); aVF=ECG(6,:);
@@ -27,7 +30,15 @@ PVC=0;
 
 % QRS detectin
     d1=I(1:2:length(II));      % 250 Hz
+        if(sum(abs(d1))==0), d1=II (1:2:length(II)); end    %MODFIED 16.04.20
+        if(sum(abs(d1))==0), d1=III(1:2:length(II)); end   %MODFIED 16.04.20
+        if(sum(abs(d1))==0), d1=aVR(1:2:length(II)); end   %MODFIED 16.04.20
+    
     d2=V2(1:2:length(II));
+        if(sum(abs(d2))==0), d2=V3(1:2:length(II)); end   %MODFIED 16.04.20
+        if(sum(abs(d2))==0), d2=V4(1:2:length(II)); end   %MODFIED 16.04.20
+        if(sum(abs(d2))==0), d2=V5(1:2:length(II)); end   %MODFIED 16.04.20
+
     [QRS]=QRS_det(d1,d2);      % go to function
     QRS=QRS*2;  % 500Hz
 % %      figure(1); clf
@@ -46,6 +57,11 @@ PVC=0;
  
  if length(QRS)<5 | length(I) - QRS(length(QRS)) >2000
 ecg=II;
+if(sum(abs(ecg(:)))==0),ecg=III;end
+if(sum(abs(ecg(:)))==0),ecg=V1;end
+if(sum(abs(ecg(:)))==0),ecg=V2;end
+if(sum(abs(ecg(:)))==0),ecg=V3;end
+
 fs=1000;
 QRS=0;
 [QRS,sign,en_thres] = qrs_detect2(ecg',0.25,0.6,fs);
@@ -146,6 +162,11 @@ end
 
 % PVC
 Lead=I;
+if(sum(abs(Lead(:)))==0),Lead=II;end   %*** MODIFIED 16.4.20
+if(sum(abs(Lead(:)))==0),Lead=III;end  %*** MODIFIED 16.4.20
+if(sum(abs(Lead(:)))==0),Lead=V1;end   %*** MODIFIED 16.4.20
+if(sum(abs(Lead(:)))==0),Lead=V2;end   %*** MODIFIED 16.4.20
+
 for i = 2:length(FP)-1;
     l=Lead(FP(i)-70: FP(i)+70);
     amp(i)=max(l);

@@ -24,11 +24,14 @@ if Size(1)~=1; lead=lead'; end
 if FP_(1)>FP_(2); m=FP_(1); FP_(1)=FP_(2); FP_(2)=m;  end
 
 % Boundery effects
-m=2;
+m=2;matrix=[];
+% % % fprintf('Left=%6.0f ',round(Left*Hz/1000));
+% % % fprintf('lead:%6.0f FP_(%3.0f):',numel(lead),numel(FP_));fprintf('%5.0f',FP_):fprintf('\n');
 if FP_(1)-round(Left*Hz/1000)>1; matrix=[lead(FP_(1)-round(Left*Hz/1000) : FP_(1)+round(Right*Hz/1000))];
 else
     if FP_(2)-round(Left*Hz/1000)>1; matrix=lead(FP_(2)-round(Left*Hz/1000) : FP_(2)+round(Right*Hz/1000));
-    else matrix=lead(FP_(3)-round(Left*Hz/1000) : FP_(3)+round(Right*Hz/1000)); m=3;
+    else
+        if(FP_(3)-round(Left*Hz/1000)>1), matrix=lead(FP_(3)-round(Left*Hz/1000) : FP_(3)+round(Right*Hz/1000)); m=3;end
     end
 end
 if FP_(length(FP_))+Right>length(lead); FP_=FP_(1:length(FP_)-1); end
