@@ -10,6 +10,7 @@
 % Crit - amplitude criteria has been changed
 
 function[Pnt,Crit]=flat_right(Lead,Crit,From,To,Flat);
+To=min(numel(Lead)-Flat-1,To);                %********** MODIFIED 16.04.2020 GB
 Pnt=0; a=0;
     while Pnt==0;
         if a<2; a=a+1; 			%increase a

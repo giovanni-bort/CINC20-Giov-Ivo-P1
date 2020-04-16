@@ -15,6 +15,7 @@
 %     = 0 - no flat segment	
 
 function[Pnt,Crit1]=Flat_l(Lead,Crit,From,To,Flat);
+To=max(Flat+1+1,To);    %******** MODIFIED 16.04.2020   Gio
 Crit1=abs(Crit);
 Pnt=0; a=0; 
 while Pnt==0;
