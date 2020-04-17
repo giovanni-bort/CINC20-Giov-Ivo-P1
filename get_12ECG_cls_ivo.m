@@ -1,8 +1,10 @@
 
-function [scores,out_labels]=get_12ECG_cls_ivo(ECG,Header,model);   % LAST VERSION running 
-%function [scores,out_labels]=get_12ECG_cls_ivo(ECG,Header,model);     
+function [scores,out_labels]=get_12ECG_cls_ivo(ECG,Header,Model);
 
-%Version do_04_02  copiede 11.4.20
+     %Version do_04_02  copiede 11.4.20
+
+    try
+    
     fprintf('Version do_04_02  -- size(ECG)=%6.0f%6.0f',size(ECG));
 
    Zero_leads=find(sum(abs(ECG),2)==0);
@@ -600,17 +602,25 @@ Text=['Normal=', num2str(Normal) '   AF=', num2str(AF), '  I-AVB=' num2str(I_AVB
  
 out_labels = [AF , I_AVB , LBBB , Normal , PAC , PVC, RBBB,  STD, STE, ];
 
-scores=out_labels*0.9;
+scores=out_labels/(max(sum(out_labels),1) ) ;
+
 fprintf('do-labels:');fprintf('%8.0f',out_labels); fprintf('\n');
 fprintf('do-scores:');fprintf('%8.3f',scores); fprintf('\n');
 
+% ******  For Deep learning  ***** DO NOT REMOVE ****
+% % valuta_trained_NN;     
+% % fprintf('NN-labels:');fprintf('%8.0f',out_labels); fprintf('\n');
+% % fprintf('NN-scores:');fprintf('%8.3f',scores); fprintf('\n');
+% % 
 
-valuta_trained_NN;
-fprintf('NN1-labels:');fprintf('%8.0f',out_labels); fprintf('\n');
-fprintf('NN1-scores:');fprintf('%8.3f',scores); fprintf('\n');
-
-
-
+    catch
+        
+    scores    = [ NaN NaN NaN NaN NaN NaN NaN NaN NaN ];
+    out_labels= [ 1   0   0   0   0   0   0   0   0   ];
+    
+fprintf('- error ------------\n');
+        
+    end
 
 
 
